@@ -30,6 +30,9 @@ package starling.extensions.pixelmask
 		private var _scaleFactor:Number;
 		private var _isAnimated:Boolean = true;
 		private var _maskRendered:Boolean = false;
+		
+		private var _widthAdjust:int;
+		private var _heightAdjust:int;
 
 		private static var sIdentity:Matrix = new Matrix();
 
@@ -110,8 +113,8 @@ package starling.extensions.pixelmask
 				clearRenderTextures();
 
 				var maskBounds:Rectangle = _mask.getBounds(_mask, Pool.getRectangle());
-				var maskWidth:Number  = maskBounds.width;
-				var maskHeight:Number = maskBounds.height;
+				var maskWidth:Number  = maskBounds.width + widthAdjust;
+				var maskHeight:Number = maskBounds.height + heightAdjust;
 				Pool.putRectangle(maskBounds);
 
 				_renderTexture = new RenderTexture(maskWidth, maskHeight, false, _scaleFactor);
@@ -175,6 +178,14 @@ package starling.extensions.pixelmask
 			_renderTexture.draw(_maskQuad, sIdentity);
 
 			Pool.putMatrix(matrix);
+		}
+		public function set widthAdjust(adjust:int):void
+		{
+			_widthAdjust = adjust;
+		}
+		public function set heightAdjust(adjust:int):void
+		{
+			_heightAdjust = adjust;
 		}
 	}
 }
